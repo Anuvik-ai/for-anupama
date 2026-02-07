@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+
+<!-- ✅ MOBILE VIEWPORT FIX -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
 <title>For Anupama ❤️</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
@@ -90,14 +94,30 @@ button{
 /* ---------------- TIMELINE ---------------- */
 .timeline{
   position:fixed;
-  inset:0;
+  top:0;
+  left:0;
+  width:100%;
+  height:100svh; /* ✅ mobile-safe height */
   background:black;
   display:none;
   z-index:20;
   overflow:hidden;
 }
 
-/* blurred background copy */
+/* slide */
+.slide{
+  position:absolute;
+  inset:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  transition:opacity 1.2s ease;
+}
+
+.slide.active{opacity:1}
+
+/* blurred background */
 .slide::before{
   content:"";
   position:absolute;
@@ -105,43 +125,29 @@ button{
   background-image:var(--bg);
   background-size:cover;
   background-position:center;
-  filter:blur(30px) brightness(.6);
+  filter:blur(30px) brightness(.5);
   transform:scale(1.1);
   z-index:-1;
 }
 
-.slide{
-  position:absolute;
-  inset:0;
-  opacity:0;
-  transition:opacity 1.2s ease;
-}
-
-.slide.active{opacity:1}
-
-/* IMAGE */
+/* ✅ FINAL IMAGE RULE (NO CROP EVER) */
 .slide img{
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  animation:kenburns 12s ease-in-out infinite alternate;
+  max-width:100%;
+  max-height:100%;
+  width:auto;
+  height:auto;
+  object-fit:contain;
+  display:block;
+  animation:kenburns 14s ease-in-out infinite alternate;
 }
 
-/* 🎥 cinematic zoom revealed */
+/* subtle zoom */
 @keyframes kenburns{
   from{transform:scale(1)}
-  to{transform:scale(1.08)}
+  to{transform:scale(1.06)}
 }
 
-/* 📱 MOBILE FIX (NO CROPPING) */
-@media(max-width:768px){
-  .slide img{
-    object-fit:contain;
-    background:black;
-  }
-}
-
-/* CAPTION */
+/* caption */
 .caption{
   position:absolute;
   bottom:12%;
@@ -259,7 +265,7 @@ const days=Math.floor((new Date()-startDate)/(1000*60*60*24));
 document.getElementById("counter").innerText=
 `We’ve been together for ${days} beautiful days ❤️`;
 
-/* Hearts */
+/* Floating hearts */
 setInterval(()=>{
   const h=document.createElement("div");
   h.className="heart";
@@ -269,7 +275,7 @@ setInterval(()=>{
   setTimeout(()=>h.remove(),6000);
 },300);
 
-/* Timeline Logic */
+/* Timeline logic */
 let slides=document.querySelectorAll(".slide");
 let current=0,startX=0;
 
@@ -311,7 +317,7 @@ function startPetals(){
   },400);
 }
 
-/* Fireworks + Final Message */
+/* Fireworks + Final text */
 function startFireworks(){
   let count=0;
   const fw=setInterval(()=>{
