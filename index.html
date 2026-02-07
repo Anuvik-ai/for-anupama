@@ -22,7 +22,7 @@ body{
   overflow:hidden;
 }
 
-/* MAIN CARD */
+/* ---------------- MAIN CARD ---------------- */
 .container{
   background:rgba(255,255,255,0.96);
   padding:32px;
@@ -31,7 +31,7 @@ body{
   border-radius:28px;
   text-align:center;
   box-shadow:0 20px 50px rgba(0,0,0,.35);
-  z-index:3;
+  z-index:5;
   animation:fadeIn 1.2s ease;
 }
 
@@ -74,7 +74,7 @@ button{
 
 .no{background:#ececec}
 
-/* HEARTS */
+/* ---------------- FLOATING HEARTS ---------------- */
 .heart{
   position:fixed;
   bottom:-20px;
@@ -87,34 +87,61 @@ button{
   to{transform:translateY(-110vh);opacity:0}
 }
 
-/* TIMELINE */
+/* ---------------- TIMELINE ---------------- */
 .timeline{
   position:fixed;
   inset:0;
   background:black;
   display:none;
   z-index:20;
+  overflow:hidden;
+}
+
+/* blurred background copy */
+.slide::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:var(--bg);
+  background-size:cover;
+  background-position:center;
+  filter:blur(30px) brightness(.6);
+  transform:scale(1.1);
+  z-index:-1;
 }
 
 .slide{
   position:absolute;
   inset:0;
   opacity:0;
-  transform:scale(1.08);
-  transition:opacity 1.2s ease,transform 1.2s ease;
+  transition:opacity 1.2s ease;
 }
 
-.slide.active{
-  opacity:1;
-  transform:scale(1);
-}
+.slide.active{opacity:1}
 
+/* IMAGE */
 .slide img{
   width:100%;
   height:100%;
   object-fit:cover;
+  animation:kenburns 12s ease-in-out infinite alternate;
 }
 
+/* 🎥 cinematic zoom revealed */
+@keyframes kenburns{
+  from{transform:scale(1)}
+  to{transform:scale(1.08)}
+}
+
+/* 📱 MOBILE FIX (NO CROPPING) */
+@media(max-width:768px){
+  .slide img{
+    object-fit:contain;
+    background:black;
+  }
+}
+
+/* CAPTION */
 .caption{
   position:absolute;
   bottom:12%;
@@ -124,23 +151,24 @@ button{
   padding:18px 24px;
   border-radius:18px;
   backdrop-filter:blur(8px);
+  max-width:80%;
 }
 
-/* PETALS */
+/* ---------------- PETALS ---------------- */
 .petal{
   position:fixed;
   top:-20px;
   font-size:22px;
   animation:fall linear infinite;
   pointer-events:none;
-  z-index:21;
+  z-index:22;
 }
 
 @keyframes fall{
   to{transform:translateY(110vh) rotate(360deg);opacity:0}
 }
 
-/* FIREWORKS */
+/* ---------------- FIREWORKS ---------------- */
 .firework{
   position:fixed;
   font-size:30px;
@@ -153,7 +181,7 @@ button{
   to{transform:scale(2);opacity:0}
 }
 
-/* FINAL TEXT */
+/* ---------------- FINAL TEXT ---------------- */
 .final-text{
   position:fixed;
   inset:0;
@@ -173,17 +201,18 @@ button{
 
 <body>
 
+<!-- MUSIC -->
 <audio id="bgMusic" loop>
   <source src="music.mp3" type="audio/mpeg">
 </audio>
 
 <div class="container">
-  <h1>Happy Rose Day ❤️</h1>
+  <h1>Happy Valentine’s Day ❤️</h1>
   <div class="name">ANUPAMA SARKAR</div>
 
   <div class="message">
-    Since 16 March 2022, every moment with you
-    has been my favorite.
+    Since 16 March 2022,<br>
+    every moment with you has been my favorite.
   </div>
 
   <div class="counter" id="counter"></div>
@@ -195,17 +224,32 @@ button{
 
 <!-- TIMELINE -->
 <div class="timeline" id="timeline">
-  <div class="slide active"><img src="2022.jpg"><div class="caption">2022 ❤️<br>Our beginning.</div></div>
-  <div class="slide"><img src="2023.jpg"><div class="caption">2023 💕<br>Growing together.</div></div>
-  <div class="slide"><img src="2024.jpg"><div class="caption">2024 ✨<br>Still choosing you.</div></div>
-  <div class="slide"><img src="2025.jpg"><div class="caption">2025 🌸<br>More memories.</div></div>
-  <div class="slide"><img src="2026.jpg"><div class="caption">2026 💍<br>Forever.</div></div>
+  <div class="slide active" style="--bg:url('2022.jpg')">
+    <img src="2022.jpg">
+    <div class="caption">2022 ❤️<br>Our beginning.</div>
+  </div>
+  <div class="slide" style="--bg:url('2023.jpg')">
+    <img src="2023.jpg">
+    <div class="caption">2023 💕<br>Growing together.</div>
+  </div>
+  <div class="slide" style="--bg:url('2024.jpg')">
+    <img src="2024.jpg">
+    <div class="caption">2024 ✨<br>Still choosing you.</div>
+  </div>
+  <div class="slide" style="--bg:url('2025.jpg')">
+    <img src="2025.jpg">
+    <div class="caption">2025 🌸<br>More memories.</div>
+  </div>
+  <div class="slide" style="--bg:url('2026.jpg')">
+    <img src="2026.jpg">
+    <div class="caption">2026 💍<br>Forever.</div>
+  </div>
 </div>
 
 <div class="final-text" id="finalText">
   <div>Stay Happy 💖</div>
   <div>Stay Safe 🌸</div>
-  <div>Forever Us DUMBOO ♾️</div>
+  <div>Forever Us ♾️</div>
 </div>
 
 <script>
@@ -267,7 +311,7 @@ function startPetals(){
   },400);
 }
 
-/* Fireworks + Final Text */
+/* Fireworks + Final Message */
 function startFireworks(){
   let count=0;
   const fw=setInterval(()=>{
@@ -281,7 +325,9 @@ function startFireworks(){
     count++;
     if(count>12){
       clearInterval(fw);
-      setTimeout(()=>document.getElementById("finalText").style.display="flex",2000);
+      setTimeout(()=>{
+        document.getElementById("finalText").style.display="flex";
+      },2000);
     }
   },300);
 }
@@ -289,4 +335,3 @@ function startFireworks(){
 
 </body>
 </html>
-
