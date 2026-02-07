@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>For Anupama ❤️</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+<style>
+*{
+  box-sizing:border-box;
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Helvetica,Arial,sans-serif;
+}
+
+body{
+  margin:0;
+  height:100vh;
+  background:radial-gradient(circle at top,#ff9a9e,#e63946,#7a0c18);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow:hidden;
+}
+
+/* MAIN CARD */
+.container{
+  background:rgba(255,255,255,0.96);
+  padding:32px;
+  width:90%;
+  max-width:390px;
+  border-radius:28px;
+  text-align:center;
+  box-shadow:0 20px 50px rgba(0,0,0,.35);
+  z-index:3;
+  animation:fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn{
+  from{opacity:0;transform:scale(.95)}
+  to{opacity:1;transform:scale(1)}
+}
+
+h1{color:#b11226;margin-bottom:6px;}
+.name{color:#e63946;font-weight:600;letter-spacing:1px;}
+
+.message{
+  font-size:15px;
+  line-height:1.7;
+  margin:18px 0;
+  color:#333;
+}
+
+.counter{
+  font-size:14px;
+  color:#555;
+  font-weight:500;
+  margin:14px 0;
+}
+
+button{
+  padding:12px 26px;
+  border-radius:30px;
+  border:none;
+  font-size:16px;
+  cursor:pointer;
+  margin:8px;
+}
+
+.yes{
+  background:#e63946;
+  color:white;
+  box-shadow:0 6px 18px rgba(230,57,70,.4);
+}
+
+.no{background:#ececec}
+
+/* HEARTS */
+.heart{
+  position:fixed;
+  bottom:-20px;
+  font-size:22px;
+  animation:floatUp 6s linear infinite;
+  z-index:1;
+}
+
+@keyframes floatUp{
+  to{transform:translateY(-110vh);opacity:0}
+}
+
+/* TIMELINE */
+.timeline{
+  position:fixed;
+  inset:0;
+  background:black;
+  display:none;
+  z-index:20;
+}
+
+.slide{
+  position:absolute;
+  inset:0;
+  opacity:0;
+  transform:scale(1.08);
+  transition:opacity 1.2s ease,transform 1.2s ease;
+}
+
+.slide.active{
+  opacity:1;
+  transform:scale(1);
+}
+
+.slide img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.caption{
+  position:absolute;
+  bottom:12%;
+  left:8%;
+  color:white;
+  background:rgba(0,0,0,.35);
+  padding:18px 24px;
+  border-radius:18px;
+  backdrop-filter:blur(8px);
+}
+
+/* PETALS */
+.petal{
+  position:fixed;
+  top:-20px;
+  font-size:22px;
+  animation:fall linear infinite;
+  pointer-events:none;
+  z-index:21;
+}
+
+@keyframes fall{
+  to{transform:translateY(110vh) rotate(360deg);opacity:0}
+}
+
+/* FIREWORKS */
+.firework{
+  position:fixed;
+  font-size:30px;
+  animation:explode 1.5s ease forwards;
+  z-index:25;
+}
+
+@keyframes explode{
+  from{transform:scale(0);opacity:1}
+  to{transform:scale(2);opacity:0}
+}
+
+/* FINAL TEXT */
+.final-text{
+  position:fixed;
+  inset:0;
+  display:none;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  background:radial-gradient(circle,#ff9a9e,#e63946);
+  color:white;
+  font-size:34px;
+  text-align:center;
+  z-index:30;
+  animation:fadeIn 2s ease;
+}
+</style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+  <h1>Happy Valentine’s Day ❤️</h1>
+  <div class="name">ANUPAMA SARKAR</div>
+
+  <div class="message">
+    Since 16 March 2022, every moment with you
+    has been my favorite.
+  </div>
+
+  <div class="counter" id="counter"></div>
+
+  <h3>Will you be my Valentine? 💖</h3>
+  <button class="yes" onclick="yesClicked()">Yes 😍</button>
+  <button class="no" onclick="alert('My heart already chose you 🥺❤️')">No 🙈</button>
+</div>
+
+<!-- TIMELINE -->
+<div class="timeline" id="timeline">
+  <div class="slide active"><img src="2022.jpg"><div class="caption">2022 ❤️<br>Our beginning.</div></div>
+  <div class="slide"><img src="2023.jpg"><div class="caption">2023 💕<br>Growing together.</div></div>
+  <div class="slide"><img src="2024.jpg"><div class="caption">2024 ✨<br>Still choosing you.</div></div>
+  <div class="slide"><img src="2025.jpg"><div class="caption">2025 🌸<br>More memories.</div></div>
+  <div class="slide"><img src="2026.jpg"><div class="caption">2026 💍<br>Forever.</div></div>
+</div>
+
+<div class="final-text" id="finalText">
+  <div>Stay Happy 💖</div>
+  <div>Stay Safe 🌸</div>
+  <div>Forever Us ♾️</div>
+</div>
+
+<script>
+/* Days Counter */
+const startDate=new Date("2022-03-16");
+const days=Math.floor((new Date()-startDate)/(1000*60*60*24));
+document.getElementById("counter").innerText=
+`We’ve been together for ${days} beautiful days ❤️`;
+
+/* Hearts */
+setInterval(()=>{
+  const h=document.createElement("div");
+  h.className="heart";
+  h.innerText="❤️";
+  h.style.left=Math.random()*100+"vw";
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),6000);
+},300);
+
+/* Timeline Logic */
+let slides=document.querySelectorAll(".slide");
+let current=0,startX=0;
+
+function yesClicked(){
+  document.getElementById("bgMusic").play();
+  document.getElementById("timeline").style.display="block";
+  startPetals();
+}
+
+function showSlide(i){
+  slides[current].classList.remove("active");
+  current=(i+slides.length)%slides.length;
+  slides[current].classList.add("active");
+  if(current===slides.length-1)startFireworks();
+}
+
+document.addEventListener("keydown",e=>{
+  if(e.key==="ArrowRight")showSlide(current+1);
+  if(e.key==="ArrowLeft")showSlide(current-1);
+});
+
+document.addEventListener("touchstart",e=>startX=e.touches[0].clientX);
+document.addEventListener("touchend",e=>{
+  let dx=e.changedTouches[0].clientX-startX;
+  if(dx>50)showSlide(current-1);
+  if(dx<-50)showSlide(current+1);
+});
+
+/* Petals */
+function startPetals(){
+  setInterval(()=>{
+    const p=document.createElement("div");
+    p.className="petal";
+    p.innerText="🌸";
+    p.style.left=Math.random()*100+"vw";
+    p.style.animationDuration=5+Math.random()*5+"s";
+    document.body.appendChild(p);
+    setTimeout(()=>p.remove(),8000);
+  },400);
+}
+
+/* Fireworks + Final Text */
+function startFireworks(){
+  let count=0;
+  const fw=setInterval(()=>{
+    const f=document.createElement("div");
+    f.className="firework";
+    f.innerText="🎆";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*60+"vh";
+    document.body.appendChild(f);
+    setTimeout(()=>f.remove(),1500);
+    count++;
+    if(count>12){
+      clearInterval(fw);
+      setTimeout(()=>document.getElementById("finalText").style.display="flex",2000);
+    }
+  },300);
+}
+</script>
+
+</body>
+</html>
